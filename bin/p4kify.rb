@@ -31,26 +31,26 @@ P4kAlbum = Struct.new(:artist, :album_name, :blurb, :review_url, :review_score, 
 
 def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
 	options = { 
-							:address              => "smtp.gmail.com",
-							:port                 => 587,
-							:user_name            => '',
-							:password             => '',
-							:authentication       => 'plain',
-							:enable_starttls_auto => true  
+		:address							=> "smtp.gmail.com",
+		:port									=> 587,
+		:user_name            => '',
+		:password             => '',
+		:authentication       => 'plain',
+		:enable_starttls_auto => true  
 	}
 
 
 	abort("Must enter your gmail username and password into the script before it will work. Aborting.") if options[:user_name].empty? && options[:password].empty?
 
 	Mail.defaults do
-		delivery_method :smtp, options
+	  delivery_method :smtp, options
 	end
 
 	Mail.deliver do
-				 to to_addr
-			 from from_addr
+    to to_addr
+		from from_addr
 		subject msg_subject
-    html_part do
+		html_part do
       content_type 'text/html; charset=UTF-8'
       body msg_body
     end
