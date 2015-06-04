@@ -1,5 +1,3 @@
-#!/usr/bin/env rvm ruby-2.1.2 do ruby
-
 require 'open-uri'
 require 'uri'
 require 'nokogiri'
