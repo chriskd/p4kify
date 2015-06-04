@@ -1,3 +1,5 @@
+!(https://raw.github.com/chriskd/p4kify/master/images/report-screenshot.png)
+
 # p4kify
 Simple script that will email you a report with the days Pitchfork.com album reviews along with links to Spotify when available. Works best when thrown in cron, the only options that need to be specified are the to/from email addresses and the name that should be used in the greeting. 
 
