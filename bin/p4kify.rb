@@ -30,21 +30,21 @@ end.parse!
 P4kAlbum = Struct.new(:artist, :album_name, :blurb, :review_url, :review_score, :best_new_music?, :spotify_url, :artwork_url, :on_spotify?)
 
 def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
-	options = { 
-		:address              => "smtp.gmail.com",
-		:port                 => 587,
-		:user_name            => '',
-		:password             => '',
-		:authentication       => 'plain',
-		:enable_starttls_auto => true  
-	}
+  options = { 
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => '',
+    :password             => '',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  
+  }
 
 
-	abort("Must enter your gmail username and password into the script before it will work. Aborting.") if options[:user_name].empty? && options[:password].empty?
+  abort("Must enter your gmail username and password into the script before it will work. Aborting.") if options[:user_name].empty? && options[:password].empty?
 
-	Mail.defaults do
-	  delivery_method :smtp, options
-	end
+  Mail.defaults do
+    delivery_method :smtp, options
+  end
 
   Mail.deliver do
     to to_addr
