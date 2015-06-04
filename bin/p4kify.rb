@@ -6,24 +6,26 @@ require 'mail'
 require 'optparse'
 require 'yaml'
 
+ARGV << '-h' if ARGV.empty?
+
 OPTIONS = {}
 OptionParser.new do | opts |
   opts.banner = "Usage: p4kify.rb [OPTIONS]"
 	OPTIONS[:config] = YAML.load_file(ENV['HOME'] + "/.p4kify.conf")
 
-  opts.on("-t", "--to-email [EMAIL]", "The email address the report will be mailed to") do |t|
+  opts.on("-t", "--to-email [EMAIL]", "The email address the report will be mailed to (required)") do |t|
     OPTIONS[:to] = t
    end
 
-  opts.on("-f", "--from-email [EMAIL]", "The email address the report will be mailed from") do |f|
+  opts.on("-f", "--from-email [EMAIL]", "The email address the report will be mailed from (required)") do |f|
     OPTIONS[:from] = f
   end
 
-  opts.on("-n", "--name [NAME]", "The name used in the email's greeting") do |n|
+  opts.on("-n", "--name [NAME]", "The name used in the email's greeting (required)") do |n|
     OPTIONS[:name] = n
   end
 
-  opts.on("-c", "--config [CONFIG]", "The path to your p4kify.conf file. Defaults to $HOME/.p4kify.conf") do |c|
+  opts.on("-c", "--config [CONFIG]", "The path to your p4kify.conf file. Defaults to $HOME/.p4kify.conf (optional)") do |c|
     OPTIONS[:config] = YAML.load_file(c)
   end
 
@@ -105,9 +107,9 @@ review_text = todays_album_reviews.reduce("") do |acc, album|
   acc += "<b>Artist</b>: #{album.artist}<br>"
   acc += "<b>Album</b>: <a href='#{album.review_url}'> #{album.album_name} </a><br>"
   acc += "<b>Score</b>: #{album.review_score}"
-  acc += album.best_new_music? ? " <b style=\"color:red\">BEST NEW MUSIC</b><br>" : "<br>"
+  acc += album['best_new_music?'] ? " <b style=\"color:red\">BEST NEW MUSIC</b><br>" : "<br>"
   acc += "<b>P4k Sez</b>: #{album.blurb}<br>"
-  acc += "<b>Spotify URL</b>: #{album.on_spotify? ? album.spotify_url : 'Album not on Spotify :('}<br><br>"
+  acc += "<b>Spotify URL</b>: #{album['on_spotify?'] ? album.spotify_url : 'Album not on Spotify :('}<br><br>"
 
   acc
 end

@@ -3,6 +3,12 @@
 
 Simple script that will email you a report with the days Pitchfork.com album reviews along with links to Spotify when available. Works best when thrown in cron, the only options that need to be specified are the to/from email addresses and the name that should be used in the greeting. 
 
+## Requirements
+You'll need to ensure you have the following gems installed:
+
+* nokogiri (http://www.nokogiri.org/)
+* mail (https://github.com/mikel/mail)
+
 ## Usage
 
 ```
