@@ -105,7 +105,7 @@ review_text = todays_album_reviews.reduce("") do |acc, album|
   acc += "<b>Artist</b>: #{album.artist}<br>"
   acc += "<b>Album</b>: <a href='#{album.review_url}'> #{album.album_name} </a><br>"
   acc += "<b>Score</b>: #{album.review_score}"
-  acc += album.best_new_music? ? " <b style=\"color:red\">BEST NEW MUSIC</a><br>" : "<br>"
+  acc += album.best_new_music? ? " <b style=\"color:red\">BEST NEW MUSIC</b><br>" : "<br>"
   acc += "<b>P4k Sez</b>: #{album.blurb}<br>"
   acc += "<b>Spotify URL</b>: #{album.on_spotify? ? album.spotify_url : 'Album not on Spotify :('}<br><br>"
 
