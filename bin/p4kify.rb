@@ -7,24 +7,24 @@ require 'optparse'
 
 options = {}
 OptionParser.new do | opts |
-	opts.banner = "Usage: p4kify.rb [options]"
+  opts.banner = "Usage: p4kify.rb [options]"
 
-	opts.on("-t", "--to-email [EMAIL]", "The email address the report will be mailed to") do |t|
-		options[:to] = t
-	end
+  opts.on("-t", "--to-email [EMAIL]", "The email address the report will be mailed to") do |t|
+    options[:to] = t
+   end
 
-	opts.on("-f", "--from-email [EMAIL]", "The email address the report will be mailed from") do |f|
-		options[:from] = f
-	end
+  opts.on("-f", "--from-email [EMAIL]", "The email address the report will be mailed from") do |f|
+    options[:from] = f
+  end
 
-	opts.on("-n", "--name [NAME]", "The name used in the email's greeting") do |n|
-		options[:name] = n
-	end
+  opts.on("-n", "--name [NAME]", "The name used in the email's greeting") do |n|
+    options[:name] = n
+  end
 
-	opts.on_tail("-h", "--help", "Displays this information, ya dingus") do
-		puts opts
-		exit
-	end
+  opts.on_tail("-h", "--help", "Displays this information, ya dingus") do
+    puts opts
+    exit
+  end
 end.parse!
 
 P4kAlbum = Struct.new(:artist, :album_name, :blurb, :review_url, :review_score, :best_new_music?, :spotify_url, :artwork_url, :on_spotify?)
