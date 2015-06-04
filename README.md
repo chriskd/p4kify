@@ -15,11 +15,14 @@ Usage: p4kify.rb [options]
 ```
 $ ruby p4kify.rb -t "your@emailaddress.com" -f "from@thisaddress.com" -n "Chris"
 ```
+*Note* Be sure to enter your smtp information into the script. I know, it's less than ideal, and it's certainly not secure. This will be managed better in future iterations. In the meantime, make sure the script is only executed in trusted environments and you're using an email account that you're ok with abandoning. I'd suggest creating a gmail account specifically for this purpose. 
+
 ## TODO
 
 There's not much to this silly little project, but I have some ideas on how it can be improved:
 
 * Gemmify it
+* Make use of config files rather than having to put config into the script
 * Pull album art from Pitchfork instead of Spotify (that way it's always there, even if Spotify doesn't have the album)
 * Allow user configerable filters (i.e., don't email any albums rated <> n, hide specific artists, pulling artist genre from last.fm and filtering based on approved genres, etc)
 * Last.fm integration -- could be neat to highlight artists you've listened before via checking last.fm history
