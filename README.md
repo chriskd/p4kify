@@ -43,6 +43,22 @@ minimum_score: 0 # Only include reviews with scores that are equal to or greater
 
 You can specify another path for the config file using the `-c` flag. 
 
+## Adding to cron
+
+You can run the script every day at a set time easily via cron. On most systems, do:
+
+```
+crontab -e
+```
+
+Then add the following line:
+
+```
+0 0 * * * /usr/bin/ruby /your/path/to/the/script/p4kify/bin/p4kify.rb -t tokyo.monster@gmail.com -f obscuredidentity@gmail.com -n "Chris"
+```
+
+The above line will cause the script to execute every day at midnight, however, you can schedule it to run however frequently you would like. Additional info on cron syntax here: https://help.ubuntu.com/community/CronHowto
+
 ## Troubleshooting
 
 If you experience the following error:
