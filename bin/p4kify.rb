@@ -31,8 +31,8 @@ P4kAlbum = Struct.new(:artist, :album_name, :blurb, :review_url, :review_score, 
 
 def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
 	options = { 
-		:address							=> "smtp.gmail.com",
-		:port									=> 587,
+		:address              => "smtp.gmail.com",
+		:port                 => 587,
 		:user_name            => '',
 		:password             => '',
 		:authentication       => 'plain',
@@ -54,7 +54,7 @@ def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
       content_type 'text/html; charset=UTF-8'
       body msg_body
     end
-	end
+  end
 end
 
 def crawl_p4k
