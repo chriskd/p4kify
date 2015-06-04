@@ -40,12 +40,12 @@ P4kAlbum = Struct.new(:artist, :album_name, :artwork_url, :blurb, :review_url, :
 
 def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
   options = { 
-    :address              => "smtp.gmail.com",
-    :port                 => 587,
+    :address              => OPTIONS[:config]["smtp_server"],
+    :port                 => OPTIONS[:config]["smtp_port"],
 		:user_name            => OPTIONS[:config]["email_user_name"],
     :password             => OPTIONS[:config]["email_password"],
-    :authentication       => 'plain',
-    :enable_starttls_auto => true  
+    :authentication       => OPTIONS[:config]["authentication"],
+    :enable_starttls_auto => OPTIONS[:config]["starttls_auto"]
   }
 
 

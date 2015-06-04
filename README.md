@@ -7,17 +7,31 @@ Simple script that will email you a report with the days Pitchfork.com album rev
 
 ```
 $ ruby p4kify.rb --help
-Usage: p4kify.rb [options]
+Usage: p4kify.rb [OPTIONS]
     -t, --to-email [EMAIL]           The email address the report will be mailed to
     -f, --from-email [EMAIL]         The email address the report will be mailed from
     -n, --name [NAME]                The name used in the email's greeting
+    -c, --config [CONFIG]            The path to your p4kify.conf file. Defaults to $HOME/.p4kify.conf
     -h, --help                       Displays this information, ya dingus
 ```
 
 ```
 $ ruby p4kify.rb -t "your@emailaddress.com" -f "from@thisaddress.com" -n "Chris"
 ```
-*Note* Be sure to enter your smtp information into the script. I know, it's less than ideal, and it's certainly not secure. This will be managed better in future iterations. In the meantime, make sure the script is only executed in trusted environments and you're using an email account that you're ok with abandoning. I'd suggest creating a gmail account specifically for this purpose. 
+## p4kify.conf
+
+You must specify your SMTP options in a config file before the script can send you emails. An example using gmail is below.
+
+```
+email_user_name: "yourgmailaddress@gmail.com"
+email_password:  "thepassword"
+smtp_server: "smtp.gmail.com"
+smtp_port: 587
+authentication: "plain"
+starttls_auto: true
+```
+
+You can specify another path for the config file using the `-c` flag. 
 
 ## TODO
 
