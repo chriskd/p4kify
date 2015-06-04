@@ -46,11 +46,11 @@ def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
 	  delivery_method :smtp, options
 	end
 
-	Mail.deliver do
+  Mail.deliver do
     to to_addr
-		from from_addr
-		subject msg_subject
-		html_part do
+    from from_addr
+    subject msg_subject
+    html_part do
       content_type 'text/html; charset=UTF-8'
       body msg_body
     end
