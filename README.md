@@ -23,12 +23,16 @@ $ ruby p4kify.rb -t "your@emailaddress.com" -f "from@thisaddress.com" -n "Chris"
 You must specify your SMTP options in a config file before the script can send you emails. An example using gmail is below.
 
 ```
+# SMTP Options
 email_user_name: "yourgmailaddress@gmail.com"
 email_password:  "thepassword"
 smtp_server: "smtp.gmail.com"
 smtp_port: 587
 authentication: "plain"
 starttls_auto: true
+
+# Review filters
+minimum_score = 0 # Only include reviews with scores that are equal to or greater than the specified score
 ```
 
 You can specify another path for the config file using the `-c` flag. 

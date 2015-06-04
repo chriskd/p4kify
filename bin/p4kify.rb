@@ -35,7 +35,6 @@ end.parse!
 
 abort("Missing required arguments") if OPTIONS[:to].nil? || OPTIONS[:from].nil? || OPTIONS[:name].nil?
 
-
 P4kAlbum = Struct.new(:artist, :album_name, :artwork_url, :blurb, :review_url, :review_score, :best_new_music?, :spotify_url, :on_spotify?)
 
 def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
@@ -68,6 +67,7 @@ end
 
 def crawl_p4k
   p4k = Nokogiri::HTML(open('http://pitchfork.com'))
+	reviews = []
   p4k.css('#review-day-1').css('.review-detail-info').map do |elem| 
     artist = elem.css('a h1').text.strip
     album = elem.css('a h2').text.strip
@@ -76,9 +76,12 @@ def crawl_p4k
     review_url = "http://pitchfork.com#{elem.css('a')[0]['href'].strip}"
     review_page = Nokogiri::HTML(open(review_url))
     review_score = review_page.css('.score').text.strip
+		minimum_score = OPTIONS[:config]["minimum_score"] ? OPTIONS[:config]["minimum_score"] : 0
     best_new_music = review_page.css('.bnm-label').text.strip == "Best New Music" ? true : false
-    P4kAlbum.new(artist, album, artwork_url, blurb, review_url, review_score, best_new_music)
+		reviews << P4kAlbum.new(artist, album, artwork_url, blurb, review_url, review_score, best_new_music) if review_score.to_f >= minimum_score
   end
+
+	reviews
 end
 
 def crawl_spotify(todays_reviews)
