@@ -59,42 +59,44 @@ end
 
 def crawl_p4k
   p4k = Nokogiri::HTML(open('http://pitchfork.com'))
-	p4k.css('#review-day-1').css('.review-detail-info').map do |elem| 
-		artist = elem.css('a h1').text.strip
-		album = elem.css('a h2').text.strip
-		blurb = elem.css('.content-container').text.strip
-		review_url = "http://pitchfork.com#{elem.css('a')[0]['href'].strip}"
-		review_page = Nokogiri::HTML(open(review_url))
-		review_score = review_page.css('.score').text.strip
-		best_new_music = review_page.css('.bnm-label').text.strip == "Best New Music" ? true : false
-		P4kAlbum.new(artist, album, blurb, review_url, review_score, best_new_music)
-	end
+  p4k.css('#review-day-1').css('.review-detail-info').map do |elem| 
+    artist = elem.css('a h1').text.strip
+    album = elem.css('a h2').text.strip
+    blurb = elem.css('.content-container').text.strip
+    review_url = "http://pitchfork.com#{elem.css('a')[0]['href'].strip}"
+    review_page = Nokogiri::HTML(open(review_url))
+    review_score = review_page.css('.score').text.strip
+    best_new_music = review_page.css('.bnm-label').text.strip == "Best New Music" ? true : false
+    P4kAlbum.new(artist, album, blurb, review_url, review_score, best_new_music)
+  end
 end
 
 def crawl_spotify(todays_reviews)
-	todays_reviews.map do |album|
-		spotify_result_hash = JSON.parse(open("https://api.spotify.com/v1/search?q=album:#{URI.encode(album.album_name)}%20artist:#{URI.encode(album.artist)}&type=album&market=US").read)["albums"]["items"][0]
-		if spotify_result_hash
-			album.spotify_url = spotify_result_hash["external_urls"]["spotify"]
-			album.artwork_url = spotify_result_hash["images"][1]["url"]
-			album[:on_spotify?] = true
-		else
-			album[:on_spotify?] = false
-		end 
-		album
-	end
+  todays_reviews.map do |album|
+    spotify_result_hash = JSON.parse(open("https://api.spotify.com/v1/search?q=album:#{URI.encode(album.album_name)}%20artist:#{URI.encode(album.artist)}&type=album&market=US").read)["albums"]["items"][0]
+    if spotify_result_hash
+      album.spotify_url = spotify_result_hash["external_urls"]["spotify"]
+      album.artwork_url = spotify_result_hash["images"][1]["url"]
+      album[:on_spotify?] = true
+    else
+      album[:on_spotify?] = false
+    end 
+
+    album
+  end
 end
 
 todays_album_reviews = crawl_spotify(crawl_p4k)
 
 review_text = todays_album_reviews.reduce("") do |acc, album|
-	acc += "<img src=\"#{album.artwork_url}\"><br>"
+  acc += "<img src=\"#{album.artwork_url}\"><br>"
   acc += "<b>Artist</b>: #{album.artist}<br>"
-	acc += "<b>Album</b>: <a href='#{album.review_url}'> #{album.album_name} </a><br>"
-	acc += "<b>Score</b>: #{album.review_score}"
-	acc += album.best_new_music? ? " <b style=\"color:red\">BEST NEW MUSIC</a><br>" : "<br>"
-	acc += "<b>P4k Sez</b>: #{album.blurb}<br>"
-	acc += "<b>Spotify URL</b>: #{album.on_spotify? ? album.spotify_url : 'Album not on Spotify :('}<br><br>"
+  acc += "<b>Album</b>: <a href='#{album.review_url}'> #{album.album_name} </a><br>"
+  acc += "<b>Score</b>: #{album.review_score}"
+  acc += album.best_new_music? ? " <b style=\"color:red\">BEST NEW MUSIC</a><br>" : "<br>"
+  acc += "<b>P4k Sez</b>: #{album.blurb}<br>"
+  acc += "<b>Spotify URL</b>: #{album.on_spotify? ? album.spotify_url : 'Album not on Spotify :('}<br><br>"
+
   acc
 end
 
