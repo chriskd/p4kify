@@ -23,9 +23,9 @@ OptionParser.new do | opts |
     OPTIONS[:name] = n
   end
 
-	opts.on("-c", "--config [CONFIG]", "The path to your p4kify.conf file. Defaults to $HOME/.p4kify.conf") do |c|
-		OPTIONS[:config] = YAML.load_file(c)
-	end
+  opts.on("-c", "--config [CONFIG]", "The path to your p4kify.conf file. Defaults to $HOME/.p4kify.conf") do |c|
+    OPTIONS[:config] = YAML.load_file(c)
+  end
 
   opts.on_tail("-h", "--help", "Displays this information, ya dingus") do
     puts opts
@@ -41,7 +41,7 @@ def send_mail_via_gmail(to_addr, from_addr, msg_subject, msg_body)
   options = { 
     :address              => OPTIONS[:config]["smtp_server"],
     :port                 => OPTIONS[:config]["smtp_port"],
-		:user_name            => OPTIONS[:config]["email_user_name"],
+    :user_name            => OPTIONS[:config]["email_user_name"],
     :password             => OPTIONS[:config]["email_password"],
     :authentication       => OPTIONS[:config]["authentication"],
     :enable_starttls_auto => OPTIONS[:config]["starttls_auto"]
@@ -67,21 +67,21 @@ end
 
 def crawl_p4k
   p4k = Nokogiri::HTML(open('http://pitchfork.com'))
-	reviews = []
+  reviews = []
   p4k.css('#review-day-1').css('.review-detail-info').map do |elem| 
     artist = elem.css('a h1').text.strip
     album = elem.css('a h2').text.strip
-		artwork_url = elem.parent.css('.review-cover a div')[0].attr('data-content').match(/src="(.*)"/)[1]
+    artwork_url = elem.parent.css('.review-cover a div')[0].attr('data-content').match(/src="(.*)"/)[1]
     blurb = elem.css('.content-container').text.strip
     review_url = "http://pitchfork.com#{elem.css('a')[0]['href'].strip}"
     review_page = Nokogiri::HTML(open(review_url))
     review_score = review_page.css('.score').text.strip
-		minimum_score = OPTIONS[:config]["minimum_score"] ? OPTIONS[:config]["minimum_score"] : 0
+    minimum_score = OPTIONS[:config]["minimum_score"] ? OPTIONS[:config]["minimum_score"] : 0
     best_new_music = review_page.css('.bnm-label').text.strip == "Best New Music" ? true : false
-		reviews << P4kAlbum.new(artist, album, artwork_url, blurb, review_url, review_score, best_new_music) if review_score.to_f >= minimum_score
+    reviews << P4kAlbum.new(artist, album, artwork_url, blurb, review_url, review_score, best_new_music) if review_score.to_f >= minimum_score
   end
 
-	reviews
+  reviews
 end
 
 def crawl_spotify(todays_reviews)
