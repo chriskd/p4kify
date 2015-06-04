@@ -38,7 +38,7 @@ authentication: "plain"
 starttls_auto: true
 
 # Review filters
-minimum_score : 0 # Only include reviews with scores that are equal to or greater than the specified score
+minimum_score: 0 # Only include reviews with scores that are equal to or greater than the specified score
 ```
 
 You can specify another path for the config file using the `-c` flag. 
